@@ -18,6 +18,9 @@ var {
 var QRCodeScreen = require('./QRCodeScreen');
 var Index = require('./Index.js');
 console.log("##########Trying to import CameraApp");
+
+
+
 var cameraApp = React1.createClass({
   render: function() {
     console.log("#########Trying to start the cameraApp");
