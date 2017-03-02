@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, Text } from 'react-native';
+import cameraApp from './js/CameraApp.js';
 
 // This would be the root class for the app.
 /*
@@ -11,7 +12,7 @@ import { AppRegistry, Text } from 'react-native';
 export default class VotingApp extends Component {
   render() {
     return (
-      <Text>Hello world!</Text>
+      <cameraApp/>
     );
   }
 }
