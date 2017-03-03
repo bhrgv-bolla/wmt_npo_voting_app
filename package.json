@@ -10,7 +10,8 @@
     "react": "15.4.2",
     "react-native": "0.42.0",
     "react-native-camera": "^0.6.0",
-    "react-native-qrcode-scanner": "0.0.6"
+    "react-native-qrcode-scanner": "0.0.6",
+    "rn-bootstrap-buttons": "^1.0.4"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
