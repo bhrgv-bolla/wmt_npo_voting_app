@@ -35,9 +35,20 @@ export default class Main extends Component {
       console.log("Routed to store", this, this.props);
     }
 
+    handleTransitionToVotingScreen = (storeId) => {
+      console.log("#####In handle Transistion");
+      this.props.navigator.push({
+        name: 'VotingScreen',
+        passProps: {
+          storeId: storeId
+        },
+      })
+    }
 
       onSuccess(e) {
         console.log("Main QRScanner Data is:"+e.data);
+        //COnvert to some fake store later.
+        this.handleTransitionToVotingScreen(e.data);
         // Linking.openURL(e.data).catch(err => console.error('An error occured', err))
       }
 

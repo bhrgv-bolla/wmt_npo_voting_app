@@ -8,6 +8,8 @@ import QRCodeScanner from './js/react-native-qrcode-scanner';
 //Custom imports
 import Main from './js/main.js';
 
+import VotingScreen from './js/vote-screen.js';
+
 
 import {
   StyleSheet,
@@ -43,6 +45,10 @@ export default class VotingApp extends Component {
    else if(route.name == 'QRCodeScanner') {
      console.log("~~~~Alright! rendering QRCodeScanner scene~~~~");
      return <QRCodeScanner navigator={navigator} {...route.passProps} />
+   }
+   else if(route.name == 'VotingScreen') {
+     console.log("~~~~Rendering VotingScreen scene");
+     return <VotingScreen navigator={navigator} {...route.passProps} />
    }
  }
 
