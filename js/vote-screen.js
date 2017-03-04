@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View } from 'react-native';
+import { AppRegistry, View } from 'react-native';
 
 import {
   StyleSheet,
@@ -11,7 +11,7 @@ import {
   Linking,
 } from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Radio } from 'native-base';
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
@@ -47,7 +47,12 @@ export default class VotingScreen extends Component {
 
   _handleTransitionToManyNPOsView = () => {
     console.log("~~~~~ALright! Handle transition to more NPOs view", this.props.storeId);
-
+    this.props.navigator.push({
+      name: 'MoreVotingScreen',
+      passProps: {
+        storeId: this.props.storeId,
+      },
+    })
   }
 
   _renderTop3NPOs = () => {
@@ -56,6 +61,15 @@ export default class VotingScreen extends Component {
       const npos = x.map((npo) => <Button block primary key={npo.name.toString()} style={styles.customButton}><Text>{npo.name}</Text></Button>);
       return npos;
   }
+
+  _sendVote = () => {
+    console.log("In send vote", this.state.selected);
+    //TODO send the vote to Javier's voting Service
+
+    this._handleTransitionToSuccessVotePage();
+  }
+
+  
 
   render(){
     console.log(this.props, "From Voting Screen");

@@ -9,6 +9,8 @@ import QRCodeScanner from './js/react-native-qrcode-scanner';
 import Main from './js/main.js';
 
 import VotingScreen from './js/vote-screen.js';
+import VotingScreenMany from './js/voting-screen-many.js';
+import SuccessVotingScreen from './js/success-voting-screen.js';
 
 
 import {
@@ -51,6 +53,14 @@ export default class VotingApp extends Component {
    else if(route.name == 'VotingScreen') {
      console.log("~~~~Rendering VotingScreen scene");
      return <VotingScreen navigator={navigator} {...route.passProps} />
+   }
+   else if(route.name == 'MoreVotingScreen'){
+     console.log("~~~~Rendering MoreVotingScreen scene");
+     return <VotingScreenMany navigator={navigator} {...route.passProps} />
+   }
+   else if(route.name == 'SuccessVotingScreen'){
+     console.log("~~~~Rendering Success Voting Screen ")
+     return <SuccessVotingScreen navigator={navigator} {...route.passProps}/>
    }
  }
 
