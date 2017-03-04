@@ -12,14 +12,12 @@ import {
     Navigator,
     Vibration,
     Linking,
-    Button,
     Animated,
     Easing,
     View
 } from 'react-native';
 
-
-
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon } from 'native-base';
 
 export default class Main extends Component {
 
@@ -52,51 +50,53 @@ export default class Main extends Component {
         // Linking.openURL(e.data).catch(err => console.error('An error occured', err))
       }
 
+
+    /*
+
+    reactivate: true,
+    reactivateTimeout: 5000,
+    */
+
+//Change this to have QR before going to voting.
     gotoVoting= () => {
       console.log("Routed to Voting app", this.props);
-      this.props.navigator.push({
-        name: 'QRCodeScanner',
-        passProps: {
-          onRead: this.onSuccess.bind(this),
-          reactivate: true,
-          topContent: <Text style={styles.centerText}>Scan your <Text style={styles.textBold}>Walmart Receipt</Text> to cast your vote.</Text>
-        },
-      })
+      // this.props.navigator.push({
+      //   name: 'QRCodeScanner',
+      //   passProps: {
+      //     onRead: this.onSuccess.bind(this),
+      //     topContent: <Text style={styles.centerText}>Scan your <Text style={styles.textBold}>Walmart Receipt</Text> to cast your vote.</Text>
+      //   },
+      // })
+
+      this.handleTransitionToVotingScreen("Store100");
+
     }
 
     render() {
-        return ( <
-            View style = {
-                {
-                    flex: 1,
-                    marginTop: 64,
-                }
-            } >
-            <
-            Button onPress = {
-                this.gotoStore
-            }
-            style={{color: 'blue'}}
-            title = "Store Configurations"
-            color = "#841584"
-            accessibilityLabel = "Align Stores to NPO's" /
-            >
-
-            <
-            Button onPress = {
-                this.gotoVoting
-            }
-            style={{color: 'blue'}}
-            title = "Voting App"
-            color = "#841584"
-            accessibilityLabel = "Voting app" /
-            >
-            </View>
+        return (
+          <Container>
+            <Header>
+              <Body>
+                <Title>Start Demo</Title>
+              </Body>
+            </Header>
+            <Content>
+              <Button block onPress = {this.gotoStore} style={styles.customButton}>
+                <Text>Store Configurations</Text>
+              </Button>
+              <Button block success onPress={this.gotoVoting} style={styles.customButton}>
+                <Text>Voting App</Text>
+              </Button>
+            </Content>
+          </Container>
         )
     }
 }
 
-const styles = StyleSheet.create({
+
+
+//Styles below ( Clean up later Not using all of these!!!!!!)
+const styles = {
     infoView: {
         flex: 2,
         justifyContent: 'center',
@@ -149,4 +149,9 @@ const styles = StyleSheet.create({
         borderColor: 'hsl(0, 0%, 45%)',
         backgroundColor: 'transparent',
     },
-})
+
+    customButton: {
+      padding: 20,
+      margin: 20,
+    }
+}

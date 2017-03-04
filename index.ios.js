@@ -29,6 +29,8 @@ import {
 *  1. Reading a receipt
 *  2. Store => Foundation organizations. ( More information / more store's; Just a single click. => Confirm necessary (?) )
 *  3. Show how there vote effects the results of that store. (% distribution of store's information)
+
+This is primarily for the anatomy of the page.
 */
 export default class VotingApp extends Component {
   onSuccess(e) {
