@@ -87,7 +87,7 @@ export default class NPODetailScreen extends Component {
     constructor(props) {
         super(props);
         console.log("Constructor-NPODetailScreen--", this.props);
-        //TODO remove this => This will be given from the previous screen!!!!!!!! (@Jeffs service)
+        //TODO (@Jeffs service) remove this => This will be given from the previous screen!!!!!!!! as npo in the props!! Confirm
         let npoDetailData = {
             "nonProfitID": "0c0b0772-6b80-4355-82c6-3a64278b8733",
             "name": "UNICEF",
@@ -113,7 +113,7 @@ export default class NPODetailScreen extends Component {
         this.props.navigator.pop();
     }
 
-    //TODO here need to make a rest call about the update. 
+    //TODO To {@Jeffs Service} here need to make a rest call about the update on an NPO. (  )
     _saveForm = () => {
       console.log(value,"saveForm");
         var value = this.refs.form.getValue();
@@ -159,7 +159,7 @@ export default class NPODetailScreen extends Component {
             );
         }
 
-        //TODO make search work later
+
         return (
             <Container>
                 <Header>

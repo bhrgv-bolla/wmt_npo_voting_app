@@ -29,7 +29,7 @@ export default class SuccessVotingScreen extends Component {
     this.state = {selected:null, voteButtonDisabled:true, renderPlaceholderOnly: true};
   }
 
-  //Get all stats for NPOs for a store. (TODO  Will make a call to pattricks analytics service )
+  //(TODO  {@pattricks analytics service} Will make a call to  )
   _getAllNPOsStatsForStore = () => {
     console.log("Mehotd: AllNPOsForStore", this.props.storeId);
     return [{
@@ -80,7 +80,7 @@ export default class SuccessVotingScreen extends Component {
     }
 
     console.log(this.props, "From SuccessVotingScreen");
-    const npos = this._getAllNPOsStatsForStore();//TODO draw a Pie chart out of this information.
+    const npos = this._getAllNPOsStatsForStore();
     console.log("All npos", npos);
     let options = {
       margin: {

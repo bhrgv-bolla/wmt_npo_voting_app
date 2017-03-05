@@ -65,7 +65,7 @@ export default class VotingScreen extends Component {
 
   _sendVote = (npo) => {
     console.log("In send vote", npo);
-    //TODO send the vote to Javier's voting Service
+    //TODO (@Javier's voting Service) send the vote to Also get from the previous screen the transactionId( Random UUID ) along with store
 
     this._handleTransitionToSuccessVotePage();
   }

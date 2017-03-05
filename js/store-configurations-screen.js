@@ -27,7 +27,7 @@ export default class StoreConfigurationsScreen extends Component {
     this.state = {selected:null, voteButtonDisabled:true, search:'', renderPlaceholderOnly: true, storeId:null, storeConfigurationData:null};
   }
 
-  //Right swipe more information. TODO time to call Jeff's service
+  //TODO {@Jeff's service} time to call => Get all NPOs for a store endpoint
   _getAllNPOsForStore = () => {
     console.log("Mehotd: AllNPOsForStore", this.state.storeId);
     return [{
@@ -80,7 +80,7 @@ export default class StoreConfigurationsScreen extends Component {
 
 
 
-//TODO create a new detail NPO page.
+
   _handleTransitionToDetailNPOPage = (npo) => {
     console.log("Transition to the NPO detail page", npo)
     this.props.navigator.push({
@@ -102,8 +102,6 @@ export default class StoreConfigurationsScreen extends Component {
   }
 
 
-
-//TODO take to a new screen..... You need to get details page of the selected NPO. How about that. NPO properies are transferred.
   _handleListSelect = (npo) => {
     console.log("Handling a select gesture", npo, this.refs);
     this._handleTransitionToDetailNPOPage(npo);
@@ -144,7 +142,7 @@ export default class StoreConfigurationsScreen extends Component {
     const npos = this._getAllNPOsForStore();
     console.log("All npos", npos);
 
-    if (this.state.renderPlaceholderOnly || !(this.state.storeId && this.state.storeConfigurationData)) {//storeId if evaluated to false TODO change icon
+    if (this.state.renderPlaceholderOnly || !(this.state.storeId && this.state.storeConfigurationData)) {//storeId if evaluated to false
     return (<Container>
         <Header searchBar rounded>
             <Item>
@@ -175,7 +173,6 @@ export default class StoreConfigurationsScreen extends Component {
           </Container>);
     }
 
-    //TODO make search work later
     return (
       <Container>
         <Header searchBar rounded>

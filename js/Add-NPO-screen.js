@@ -103,7 +103,7 @@ export default class AddNPOScreen extends Component {
         this.props.navigator.pop();
     }
 
-    //TODO here need to make a rest call about the put ( Jeffs Serivce ).
+    //TODO ( Jeffs Serivce ) here need to make a rest call about the put .
     _saveForm = () => {
       console.log(value,"saveForm");
         var value = this.refs.form.getValue();
@@ -147,7 +147,7 @@ export default class AddNPOScreen extends Component {
             );
         }
 
-        //TODO make search work later
+      
         return (
             <Container>
                 <Header>

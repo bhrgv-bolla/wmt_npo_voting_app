@@ -82,7 +82,7 @@ export default class VotingScreenMany extends Component {
 //select something and send vote
   _sendVote = () => {
     console.log("In send vote", this.state.selected);
-    //TODO send the vote to Javier's voting Service
+    //TODO @Javier's voting Service send the vote to => Send transactionId
 
     this._handleTransitionToSuccessVotePage();
   }
@@ -132,7 +132,7 @@ export default class VotingScreenMany extends Component {
         });
       }
 
-  
+
 
   render(){
     console.log(this.props, this.state, "From Voting Screen");
@@ -158,7 +158,7 @@ export default class VotingScreenMany extends Component {
           </Container>);
     }
 
-    //TODO make search work later
+
     return (
       <Container>
         <Header searchBar rounded>
