@@ -14,19 +14,24 @@ import {
     Linking,
     Animated,
     Easing,
-    View
+    View,
+    InteractionManager
 } from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Spinner } from 'native-base';
 
 export default class Main extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {renderPlaceholderOnly: true};
     }
 
     componentDidMount() {
       console.log("Main componentDidMount");
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({renderPlaceholderOnly: false});
+      });
     }
 
     gotoStore = () => {
@@ -73,6 +78,13 @@ export default class Main extends Component {
     }
 
     render() {
+      if (this.state.renderPlaceholderOnly) {
+      return (<Container>
+                <Content>
+                    <Spinner color='green' />
+                </Content>
+            </Container>);
+    }
         return (
           <Container>
             <Header>

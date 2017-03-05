@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Linking,
+  InteractionManager
 } from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Radio } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Radio, Spinner } from 'native-base';
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
@@ -58,20 +59,47 @@ export default class VotingScreen extends Component {
   _renderTop3NPOs = () => {
       console.log("Method: Render Top 3 NPOs");
       let x = this._getTop3NPOsForStore();
-      const npos = x.map((npo) => <Button block primary key={npo.name.toString()} style={styles.customButton}><Text>{npo.name}</Text></Button>);
+      const npos = x.map((npo) => <Button block primary key={npo.name.toString()} style={styles.customButton} onPress={() => this._sendVote(npo)}><Text>{npo.name}</Text></Button>);
       return npos;
   }
 
-  _sendVote = () => {
-    console.log("In send vote", this.state.selected);
+  _sendVote = (npo) => {
+    console.log("In send vote", npo);
     //TODO send the vote to Javier's voting Service
 
     this._handleTransitionToSuccessVotePage();
   }
 
-  
+  _handleTransitionToSuccessVotePage = () => {
+    this.props.navigator.push({
+      name: 'SuccessVotingScreen',
+      passProps: {
+        storeId: this.props.storeId,
+      },
+    })
+  }
+
+  componentDidMount() {
+    console.log("Vote Screen componentDidMount");
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({renderPlaceholderOnly: false});
+    });
+  }
+
+  constructor(props) {
+      super(props);
+      this.state = {renderPlaceholderOnly: true};
+  }
+
 
   render(){
+    if (this.state.renderPlaceholderOnly) {
+    return (<Container>
+              <Content>
+                  <Spinner color='green' />
+              </Content>
+          </Container>);
+    }
     console.log(this.props, "From Voting Screen");
     const npos = this._renderTop3NPOs();
     console.log("Top 3 npos", npos);
@@ -87,7 +115,7 @@ export default class VotingScreen extends Component {
     //May be add more icons later.
     return (
       <Container>
-        <Header>
+        <Header toolbarDefaultBg="#007bc4">
           <Body>
             <Title>
               Vote For Non-Profit!
@@ -95,7 +123,7 @@ export default class VotingScreen extends Component {
           </Body>
           <Right>
             <Button transparent>
-              <Icon name='ios-help'/>
+              <Icon name='ios-help-circle' style={{color:"#007bc4"}}/>
             </Button>
           </Right>
         </Header>
@@ -103,12 +131,15 @@ export default class VotingScreen extends Component {
         <Content style={styles.centerContent}>
           <Grid>
             <Row size={1} style={{alignItems:"center", height:100}}>
-            <View style={{justifyContent:"center"}}>
+              <Col size={1}></Col>
+              <Col size={15}>
               <Text style={{textAlign:"center"}}>
                 Click on a non profit to vote for it. {'\n'}
-                Click on help to learn more about the program.
+                Click <Icon name='ios-help-circle' style={{color:"#007bc4"}}/>  to learn more about the program. {'\n'}
+                Click more to find other non profits.
               </Text>
-            </View>
+              </Col>
+              <Col size={1}></Col>
             </Row>
             <Col>
             {npos}
@@ -139,5 +170,6 @@ const styles = {
   customButton: {
     padding: 20,
     margin: 20,
+    color: "#007bc4",
   }
 }

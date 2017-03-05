@@ -9,11 +9,14 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Linking,
+  InteractionManager
 } from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, List, ListItem, Item, Input, Text, Radio } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, List, ListItem, Item, Input, Text, Radio, Spinner } from 'native-base';
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
+
+import { Pie } from 'react-native-pathjs-charts';
 
 
 //Voting screen needs to have Atleast 3 top NPO's. And a way to get more NPO.
@@ -23,58 +26,104 @@ export default class SuccessVotingScreen extends Component {
   //Slect nothing initially
   constructor(props){
     super(props);
-    this.state = {selected:null, voteButtonDisabled:true};
+    this.state = {selected:null, voteButtonDisabled:true, renderPlaceholderOnly: true};
   }
 
   //Get all stats for NPOs for a store. (TODO  Will make a call to pattricks analytics service )
   _getAllNPOsStatsForStore = () => {
     console.log("Mehotd: AllNPOsForStore", this.props.storeId);
     return [{
-      "name":"Habitat For Humanity"
+      "name":"Habitat For Humanity",
+      percentage: 22,
     },{
-      "name":"Feeding America"
+      "name":"Feeding America",
+      percentage: 33,
     },{
-      "name":"UNICEF"
+      "name":"UNICEF",
+      percentage: 15,
+    },{
+      "name":"OTHER",
+      percentage: 6,
     }];
+  }
+
+  componentDidMount() {
+    console.log("votingscreenmany componentDidMount");
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({renderPlaceholderOnly: false});
+    });
   }
 
 
   render(){
+    if (this.state.renderPlaceholderOnly) {
+    return (<Container>
+              <Content>
+                  <Spinner color='green' />
+              </Content>
+          </Container>);
+    }
+
     console.log(this.props, "From SuccessVotingScreen");
     const npos = this._getAllNPOsStatsForStore();//TODO draw a Pie chart out of this information.
     console.log("All npos", npos);
+    let options = {
+      margin: {
+        top: 10,
+        left: 20,
+        right: 20,
+        bottom: 20
+      },
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').width,
+      color: '#30b929',
+      r: 0,
+      R: 150,
+      legendPosition: 'topRight',
+      animate: {
+        type: 'oneByOne',
+        duration: 200,
+        fillTransition: 3
+      },
+      label: {
+        fontFamily: 'Arial',
+        fontSize: 10,
+        fontWeight: true,
+        color: '#ECF0F1'
+      }
+    };
 
     return (
       <Container>
-        <Header searchBar rounded>
-            <Item>
-                <Icon name="search" />
-                <Input placeholder="Search Non-Profit" />
-                <Icon active name="md-notifications-outline" />
-            </Item>
-            <Button transparent>
-                <Text>Search</Text>
-            </Button>
+        <Header>
+            <Body>
+              <Title>
+                Vote Distributions
+              </Title>
+            </Body>
         </Header>
 
         <Content style={styles.centerContent}>
-          <List dataArray={npos} renderRow={(npo) => {
-
-                        if(npo.toString().search(this.state.search) == -1 && this.state.search) return;
-                        return (<ListItem selected={npo.name == this.state.selected?true:false} onPress={() => this._handleListSelect(npo)}>
-                            <Text>{npo.name}</Text>
-                            <Right>
-                              <Radio selected={npo.name == this.state.selected?true:false}/>
-                            </Right>
-                        </ListItem>)
-                        }
-                    } />
+            <Pie
+            data={npos}
+            options={options}
+            accessorKey="percentage"
+            pallete={
+            [
+              {'r':25,'g':99,'b':201},
+              {'r':24,'g':175,'b':35},
+              {'r':190,'g':31,'b':69},
+              {'r':100,'g':36,'b':199},
+              {'r':214,'g':207,'b':32},
+              {'r':198,'g':84,'b':45}
+            ]
+          } />
         </Content>
 
         <Footer>
             <FooterTab>
-              <Button full success onPress={this._sendVote} disabled={this.state.voteButtonDisabled}>
-                <Text>Vote</Text>
+              <Button full success onPress={this._transitionToHomeAgain}>
+                <Text>Thanks, See you again!</Text>
               </Button>
             </FooterTab>
         </Footer>
@@ -82,14 +131,13 @@ export default class SuccessVotingScreen extends Component {
 
     )
   }
-
 }
 
 const styles = {
   centerContent: {
     flex: 1,
     flexDirection: 'column',
-    marginTop:20,
+    marginTop:100,
   },
   customButton: {
     padding: 20,

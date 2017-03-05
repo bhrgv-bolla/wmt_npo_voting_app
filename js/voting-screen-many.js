@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Linking,
+  InteractionManager
 } from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, List, ListItem, Item, Input, Text, Radio } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, List, ListItem, Item, Input, Text, Radio, Spinner } from 'native-base';
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
@@ -23,7 +24,7 @@ export default class VotingScreenMany extends Component {
   //Slect nothing initially
   constructor(props){
     super(props);
-    this.state = {selected:null, voteButtonDisabled:true, search:''};
+    this.state = {selected:null, voteButtonDisabled:true, search:'', renderPlaceholderOnly: true};
   }
 
   //Right swipe more information.
@@ -123,11 +124,27 @@ export default class VotingScreenMany extends Component {
     return a.indexOf(b) >= 0;
   }
 
+
+      componentDidMount() {
+        console.log("votingscreenmany componentDidMount");
+        InteractionManager.runAfterInteractions(() => {
+          this.setState({renderPlaceholderOnly: false});
+        });
+      }
+
+
   render(){
     console.log(this.props, this.state, "From Voting Screen");
     const npos = this._getAllNPOsForStore();
     console.log("All npos", npos);
 
+    if (this.state.renderPlaceholderOnly) {
+    return (<Container>
+              <Content>
+                  <Spinner color='green' />
+              </Content>
+          </Container>);
+    }
 
     //TODO make search work later
     return (

@@ -7,10 +7,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-plugin-transform-remove-console": "^6.8.1",
     "native-base": "^2.0.12",
     "react": "15.4.2",
     "react-native": "0.42.0",
     "react-native-camera": "^0.6.0",
+    "react-native-pathjs-charts": "0.0.26",
     "react-native-qrcode-scanner": "0.0.6",
     "rn-bootstrap-buttons": "^1.0.4"
   },

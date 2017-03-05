@@ -11,10 +11,12 @@ import {
   Linking,
   Animated,
   Easing,
-  View
+  View,
+  InteractionManager
 } from 'react-native';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Radio, Spinner } from 'native-base';
 
-import Camera from 'react-native-camera'
+import Camera from 'react-native-camera';
 
 
 export default class QRCodeScanner extends Component {
@@ -46,7 +48,8 @@ export default class QRCodeScanner extends Component {
     super(props);
     this.state = {
       scanning: false,
-      fadeInOpacity: new Animated.Value(0)
+      fadeInOpacity: new Animated.Value(0),
+      renderPlaceholderOnly: true
     }
 
     this._handleBarCodeRead = this._handleBarCodeRead.bind(this);
@@ -56,6 +59,7 @@ export default class QRCodeScanner extends Component {
 
 
   componentDidMount() {
+    //Fade in is not true.
     if (this.props.fadeIn) {
       Animated.sequence([
         Animated.delay(1000),
@@ -68,6 +72,10 @@ export default class QRCodeScanner extends Component {
         )
       ]).start();
     }
+
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({renderPlaceholderOnly: false});
+    });
    }
 
   _setScanning(value) {
@@ -132,6 +140,13 @@ export default class QRCodeScanner extends Component {
 
 
   render() {
+    if (this.state.renderPlaceholderOnly) {
+    return (<Container>
+              <Content>
+                  <Spinner color='green' />
+              </Content>
+          </Container>);
+  }
     return (
       <View style={{
           flex: 1,
