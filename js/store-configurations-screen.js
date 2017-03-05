@@ -91,6 +91,16 @@ export default class StoreConfigurationsScreen extends Component {
     })
   }
 
+  _handleTransitionToAddNPOPage = () => {
+    console.log("Transition to the Add NPO store", this.state.storeId)
+    this.props.navigator.push({
+      name: 'AddNPOScreen',
+      passProps: {
+        storeId: this.state.storeId,
+      },
+    })
+  }
+
 
 
 //TODO take to a new screen..... You need to get details page of the selected NPO. How about that. NPO properies are transferred.
@@ -121,6 +131,11 @@ export default class StoreConfigurationsScreen extends Component {
           this.setState({renderPlaceholderOnly: false});
         });
       }
+
+  _addNPOToStore = ()=> {
+    console.log("Add a new NPO to store");
+    this._handleTransitionToAddNPOPage();
+  }
 
 
 
@@ -181,6 +196,14 @@ export default class StoreConfigurationsScreen extends Component {
                         }
                     }/>
         </Content>
+
+        <Footer>
+            <FooterTab>
+                <Button full success onPress={this._addNPOToStore}>
+                    <Text>ADD NPO</Text>
+                </Button>
+            </FooterTab>
+        </Footer>
 
       </Container>
 

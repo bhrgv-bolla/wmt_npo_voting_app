@@ -30,7 +30,8 @@ import {
     Input,
     Text,
     Radio,
-    Spinner
+    Spinner,
+    Toast
 } from 'native-base';
 
 import {Col, Row, Grid} from 'react-native-easy-grid';
@@ -62,7 +63,7 @@ stylesheet.textboxView.normal.marginLeft = 5;
 stylesheet.textboxView.normal.marginRight = 5;
 stylesheet.formGroup.normal.flex = 1;
 
-var NPOForm = t.struct({storeNumber: t.Number, NonProfitOrganization: t.String, voteable: t.Boolean, isInTop3: t.Boolean});
+var NPOForm = t.struct({storeNumber: t.Number, NonProfitOrganization: t.String, nonProfitType: t.String, voteable: t.Boolean, isInTop3: t.Boolean});
 
 var options = {
     stylesheet: stylesheet,
@@ -71,7 +72,7 @@ var options = {
             editable: false
         },
         NonProfitOrganization: {
-            editable: false
+            editable: true
         },
         isInTop3: {
             label: 'Is this Non-Profit in stores Top 3' // <= label for the name field
@@ -81,27 +82,16 @@ var options = {
 
 //Voting screen needs to have Atleast 3 top NPO's. And a way to get more NPO.
 //Works on this.state.selected..
-export default class NPODetailScreen extends Component {
+export default class AddNPOScreen extends Component {
 
     //Slect nothing initially
     constructor(props) {
         super(props);
-        console.log("Constructor-NPODetailScreen--", this.props);
-        //TODO remove this => This will be given from the previous screen!!!!!!!! (@Jeffs service)
-        let npoDetailData = {
-            "nonProfitID": "0c0b0772-6b80-4355-82c6-3a64278b8733",
-            "name": "UNICEF",
-            "nonProfitType": "Sustainability",
-            "storeNbr": 100,
-            "voteable": true,
-            "top3": false
-        };
+        console.log("Constructor-AddNPOScreen--", this.props);
         this.state = {
-            npoData: npoDetailData,
-            renderPlaceholderOnly: true
+            renderPlaceholderOnly: true,
+            showToast: false
         };
-
-        console.log("Constructor-NPODetailScreen-After Fake Data-", this.props, t);
     }
 
     //Return back to the home page again.
@@ -113,7 +103,7 @@ export default class NPODetailScreen extends Component {
         this.props.navigator.pop();
     }
 
-    //TODO here need to make a rest call about the update. 
+    //TODO here need to make a rest call about the put ( Jeffs Serivce ).
     _saveForm = () => {
       console.log(value,"saveForm");
         var value = this.refs.form.getValue();
@@ -123,20 +113,18 @@ export default class NPODetailScreen extends Component {
     }
 
     componentDidMount() {
-        console.log("NPODetailScreen componentDidMount");
+        console.log("AddNPOScreen componentDidMount");
         InteractionManager.runAfterInteractions(() => {
             this.setState({renderPlaceholderOnly: false});
         });
     }
 
     render() {
-        console.log(this.props, this.state, "From NPO Detail Screen");
+        console.log(this.props, this.state, "From AddNPOScreen");
 
         //Building value
-        let value = this.state.npoData;
-        value.NonProfitOrganization = value.name;
-        value.storeNumber = value.storeNbr;
-        value.isInTop3 = value.top3;
+        let value = {};
+        value.storeNumber = this.props.storeId;
         //End Building value
 
         if (this.state.renderPlaceholderOnly) {
@@ -150,7 +138,7 @@ export default class NPODetailScreen extends Component {
                         </Left>
                         <Body>
                             <Title>
-                                Edit NPO Details
+                                Add NPO
                             </Title>
                         </Body>
                         <Right></Right>
@@ -170,7 +158,7 @@ export default class NPODetailScreen extends Component {
                     </Left>
                     <Body>
                         <Title>
-                            Edit NPO Details
+                            Add NPO
                         </Title>
                     </Body>
                     <Right></Right>
@@ -179,7 +167,7 @@ export default class NPODetailScreen extends Component {
                 <Content style={styles.centerContent}>
                     <Form ref="form" type={NPOForm} options={options} value={value}/>
                     <Button block primary style={styles.customButton} onPress={this._saveForm}>
-                        <Text>SAVE</Text>
+                        <Text>ADD NPO</Text>
                     </Button>
                 </Content>
 
