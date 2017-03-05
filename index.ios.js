@@ -14,6 +14,7 @@ import SuccessVotingScreen from './js/success-voting-screen.js';
 
 
 import StoreConfigurationsScreen from './js/store-configurations-screen.js';
+import NPODetailScreen from './js/NPO-detail-screen.js';
 
 
 import {
@@ -68,6 +69,10 @@ export default class VotingApp extends Component {
    else if(route.name == 'StoreConfigurationsScreen'){//Not expecting any passProps at the moment.
      console.log("~~~~Rendering StoreConfigurationsScreen ");
      return <StoreConfigurationsScreen navigator={navigator} {...route.passProps}/>
+   }
+   else if(route.name == 'NPODetailScreen'){
+     console.log("~~~~Rendering NPODetailScreen");
+     return <NPODetailScreen navigator={navigator} {...route.passProps}/>
    }
  }
 

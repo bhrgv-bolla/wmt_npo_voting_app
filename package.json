@@ -14,7 +14,8 @@
     "react-native-camera": "^0.6.0",
     "react-native-pathjs-charts": "0.0.26",
     "react-native-qrcode-scanner": "0.0.6",
-    "rn-bootstrap-buttons": "^1.0.4"
+    "rn-bootstrap-buttons": "^1.0.4",
+    "tcomb-form-native": "^0.6.6"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
