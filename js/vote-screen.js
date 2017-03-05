@@ -91,10 +91,24 @@ export default class VotingScreen extends Component {
       this.state = {renderPlaceholderOnly: true};
   }
 
+  
+
 
   render(){
     if (this.state.renderPlaceholderOnly) {
     return (<Container>
+      <Header toolbarDefaultBg="#007bc4">
+        <Body>
+          <Title>
+            Vote For Non-Profit!
+          </Title>
+        </Body>
+        <Right>
+          <Button transparent>
+            <Icon name='ios-help-circle' style={{color:"#007bc4"}}/>
+          </Button>
+        </Right>
+      </Header>
               <Content>
                   <Spinner color='green' />
               </Content>

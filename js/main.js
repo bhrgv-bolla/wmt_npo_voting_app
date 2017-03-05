@@ -77,9 +77,16 @@ export default class Main extends Component {
 
     }
 
+
+
     render() {
       if (this.state.renderPlaceholderOnly) {
       return (<Container>
+        <Header>
+          <Body>
+            <Title>Start Demo</Title>
+          </Body>
+        </Header>
                 <Content>
                     <Spinner color='green' />
                 </Content>

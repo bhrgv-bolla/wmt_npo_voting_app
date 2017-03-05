@@ -132,6 +132,7 @@ export default class VotingScreenMany extends Component {
         });
       }
 
+  
 
   render(){
     console.log(this.props, this.state, "From Voting Screen");
@@ -140,6 +141,17 @@ export default class VotingScreenMany extends Component {
 
     if (this.state.renderPlaceholderOnly) {
     return (<Container>
+
+        <Header searchBar rounded>
+            <Item>
+                <Icon name="search" />
+                <Input placeholder="Search Non-Profit" onref="searchInput" onChange={this.updateState}/>
+                <Icon active name="md-notifications-outline" />
+            </Item>
+            <Button transparent onPress={this._handleSearch}>
+                <Text>Search</Text>
+            </Button>
+        </Header>
               <Content>
                   <Spinner color='green' />
               </Content>

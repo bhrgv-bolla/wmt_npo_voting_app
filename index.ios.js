@@ -68,6 +68,7 @@ export default class VotingApp extends Component {
     console.log("Right on!!!");
     return (
       <Navigator
+        configureScene={() => Navigator.SceneConfigs.FadeAndroid}
         style={{ flex:1 }}
         initialRoute={{ name: 'Main' }}
         renderScene={ this.renderScene } />

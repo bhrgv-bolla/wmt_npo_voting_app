@@ -54,10 +54,25 @@ export default class SuccessVotingScreen extends Component {
     });
   }
 
+  //Return back to the home page again.
+  _transitionToHomeAgain = () => {
+    this.props.navigator.push({
+      name: 'Main'
+    })
+  }
+
 
   render(){
     if (this.state.renderPlaceholderOnly) {
     return (<Container>
+
+        <Header>
+            <Body>
+              <Title>
+                Vote Distributions
+              </Title>
+            </Body>
+        </Header>
               <Content>
                   <Spinner color='green' />
               </Content>
