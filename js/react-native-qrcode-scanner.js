@@ -49,7 +49,8 @@ export default class QRCodeScanner extends Component {
     this.state = {
       scanning: false,
       fadeInOpacity: new Animated.Value(0),
-      renderPlaceholderOnly: true
+      renderPlaceholderOnly: true,
+      showCamera: true,
     }
 
     this._handleBarCodeRead = this._handleBarCodeRead.bind(this);
@@ -84,6 +85,7 @@ export default class QRCodeScanner extends Component {
 
   _handleBarCodeRead(e) {
     Vibration.vibrate();
+    this.setState({showCamera:false});
     if (!this.state.scanning) {
       console.log("event:   ", e);
       this._setScanning(true);
@@ -148,21 +150,42 @@ export default class QRCodeScanner extends Component {
           </Container>);
   }
     return (
-      <View style={{
-          flex: 1,
-          marginTop: 64,
-        }}>
-        <View style={styles.infoView}>
-          {this._renderTopContent()}
-        </View>
-        {this._renderCamera()}
-        <View style={styles.infoView}>
-          {this._renderBottomContent()}
-        </View>
-      </View>
+      <Container>
+        <Header>
+          <Body>
+            <Title>
+              Scan QR Code
+            </Title>
+          </Body>
+        </Header>
+
+        <Content>
+          {this.state.showCamera?this._renderCamera():null}
+        </Content>
+
+      </Container>
     )
   }
 }
+
+/*
+
+        <Footer>
+            {this._renderBottomContent()}
+        </Footer>
+<View style={{
+    flex: 1,
+    marginTop: 64,
+  }}>
+  <View style={styles.infoView}>
+    {this._renderTopContent()}
+  </View>
+  {this._renderCamera()}
+  <View style={styles.infoView}>
+    {this._renderBottomContent()}
+  </View>
+</View>
+*/
 
 const styles = StyleSheet.create({
   infoView: {
