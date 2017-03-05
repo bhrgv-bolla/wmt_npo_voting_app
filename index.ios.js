@@ -13,6 +13,9 @@ import VotingScreenMany from './js/voting-screen-many.js';
 import SuccessVotingScreen from './js/success-voting-screen.js';
 
 
+import StoreConfigurationsScreen from './js/store-configurations-screen.js';
+
+
 import {
   StyleSheet,
   NavigatorIOS,
@@ -61,6 +64,10 @@ export default class VotingApp extends Component {
    else if(route.name == 'SuccessVotingScreen'){
      console.log("~~~~Rendering Success Voting Screen ")
      return <SuccessVotingScreen navigator={navigator} {...route.passProps}/>
+   }
+   else if(route.name == 'StoreConfigurationsScreen'){//Not expecting any passProps at the moment.
+     console.log("~~~~Rendering StoreConfigurationsScreen ");
+     return <StoreConfigurationsScreen navigator={navigator} {...route.passProps}/>
    }
  }
 

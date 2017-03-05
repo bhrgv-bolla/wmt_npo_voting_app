@@ -34,8 +34,12 @@ export default class Main extends Component {
       });
     }
 
+    //When you click on store configurations => this will push StoreConfigurationsScreen to navigator stack.
     gotoStore = () => {
       console.log("Routed to store", this, this.props);
+      this.props.navigator.push({
+        name: 'StoreConfigurationsScreen',
+      })
     }
 
     handleTransitionToVotingScreen = (storeId) => {
