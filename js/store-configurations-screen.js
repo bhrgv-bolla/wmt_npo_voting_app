@@ -16,6 +16,8 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
+import storeNPOService from './rest-clients/store-npo-service.js';
+
 
 //Voting screen needs to have Atleast 3 top NPO's. And a way to get more NPO.
 //Works on this.state.selected..
@@ -30,51 +32,56 @@ export default class StoreConfigurationsScreen extends Component {
   //TODO {@Jeff's service} time to call => Get all NPOs for a store endpoint
   _getAllNPOsForStore = () => {
     console.log("Mehotd: AllNPOsForStore", this.state.storeId);
-    return [{
-      "name":"Habitat For Humanity"
-    },{
-      "name":"Feeding America"
-    },{
-      "name":"UNICEF"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    }];
+
+    storeNPOService.getAllNPOsForStore(this.state.storeId).then((response) => {
+      console.log("response in StoreConfigurationsScreen", response);
+      this.setState({storeConfigurationData:response});//set the state
+    })
+    // return [{
+    //   "name":"Habitat For Humanity"
+    // },{
+    //   "name":"Feeding America"
+    // },{
+    //   "name":"UNICEF"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // }];
   }
 
 
@@ -111,9 +118,13 @@ export default class StoreConfigurationsScreen extends Component {
     console.log("Handle search input", this.state, this.refs);
     let inputText = this.state.searchable;
     console.log("Retrieved Search Text", inputText);
-    this.setState({storeId:inputText});
-    let data = this._getAllNPOsForStore();
-    this.setState({storeConfigurationData:data});
+    if(Number.isInteger(inputText)){
+      this.setState({storeId:inputText});
+      // let data =
+      this._getAllNPOsForStore();
+      // this.setState({storeConfigurationData:data});
+    }
+
   }
 
   updateState = (e)=>{
@@ -123,12 +134,12 @@ export default class StoreConfigurationsScreen extends Component {
 
 
 
-      componentDidMount() {
-        console.log("votingscreenmany componentDidMount");
-        InteractionManager.runAfterInteractions(() => {
-          this.setState({renderPlaceholderOnly: false});
-        });
-      }
+  componentDidMount() {
+    console.log("votingscreenmany componentDidMount");
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({renderPlaceholderOnly: false});
+    });
+  }
 
   _addNPOToStore = ()=> {
     console.log("Add a new NPO to store");
@@ -139,8 +150,8 @@ export default class StoreConfigurationsScreen extends Component {
 
   render(){
     console.log(this.props, this.state, "From store configurations Screen");
-    const npos = this._getAllNPOsForStore();
-    console.log("All npos", npos);
+    // const npos = this._getAllNPOsForStore();
+    // console.log("All npos", npos);
 
     if (this.state.renderPlaceholderOnly || !(this.state.storeId && this.state.storeConfigurationData)) {//storeId if evaluated to false
     return (<Container>
