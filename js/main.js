@@ -69,14 +69,14 @@ export default class Main extends Component {
 //Change this to have QR before going to voting.
     gotoVoting= () => {
       console.log("Routed to Voting app", this.props);
-      // this.props.navigator.push({
-      //   name: 'QRCodeScanner',
-      //   passProps: {
-      //     onRead: this.onSuccess.bind(this)
-      //   },
-      // });
+      this.props.navigator.push({
+        name: 'QRCodeScanner',
+        passProps: {
+          onRead: this.onSuccess.bind(this)
+        },
+      });
 
-      this.handleTransitionToVotingScreen("100");//TODO Zsecondary:  change later to use QR screen
+      // this.handleTransitionToVotingScreen("100");//TODO Zsecondary:  change later to use QR screen
 
     }
 
