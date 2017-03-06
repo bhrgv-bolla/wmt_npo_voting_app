@@ -19,6 +19,9 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Pie } from 'react-native-pathjs-charts';
 
 
+import storeAnalyticsService from './rest-clients/store-npo-voting-analytics-service.js';
+
+
 //Voting screen needs to have Atleast 3 top NPO's. And a way to get more NPO.
 //Works on this.state.selected..
 export default class SuccessVotingScreen extends Component {
@@ -26,25 +29,47 @@ export default class SuccessVotingScreen extends Component {
   //Slect nothing initially
   constructor(props){
     super(props);
-    this.state = {selected:null, voteButtonDisabled:true, renderPlaceholderOnly: true};
+    this.state = {selected:null, voteButtonDisabled:true, renderPlaceholderOnly: true, storeAnalyticsData:null};
   }
 
   //(TODO  {@pattricks analytics service} Will make a call to  )
   _getAllNPOsStatsForStore = () => {
-    console.log("Mehotd: AllNPOsForStore", this.props.storeId);
-    return [{
-      "name":"Habitat For Humanity",
-      percentage: 22,
-    },{
-      "name":"Feeding America",
-      percentage: 33,
-    },{
-      "name":"UNICEF",
-      percentage: 15,
-    },{
-      "name":"OTHER",
-      percentage: 6,
-    }];
+    console.log("Mehotd: Store Analytics", this.props.storeId);
+
+    storeAnalyticsService.getAnalyticsForStore(this.props.storeId).then((response) => {
+      console.log("response in SuccessVotingScreen", response);
+      /*
+      orgResults
+      */
+
+      let values=[];
+      console.log(response[0].orgResults, "orgResults");
+      response[0].orgResults.forEach((org) => {
+        let orgLoc = {};
+        orgLoc.name = org.orgName;
+        orgLoc.percentage = parseInt(org.votes);
+        console.log(org, orgLoc);
+        values.push(orgLoc);
+      });
+      console.log(values, "Compare Values");
+
+      this.setState({storeAnalyticsData:values});
+    }).catch((err) => {
+      console.log("error while requesting store analytics", err);
+    });
+    // return [{
+    //   "name":"Habitat For Humanity",
+    //   percentage: 22,
+    // },{
+    //   "name":"Feeding America",
+    //   percentage: 33,
+    // },{
+    //   "name":"UNICEF",
+    //   percentage: 15,
+    // },{
+    //   "name":"OTHER",
+    //   percentage: 6,
+    // }];
   }
 
   componentDidMount() {
@@ -52,6 +77,7 @@ export default class SuccessVotingScreen extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({renderPlaceholderOnly: false});
     });
+    this._getAllNPOsStatsForStore();
   }
 
   //Return back to the home page again.
@@ -63,7 +89,7 @@ export default class SuccessVotingScreen extends Component {
 
 
   render(){
-    if (this.state.renderPlaceholderOnly) {
+    if (this.state.renderPlaceholderOnly || !this.state.storeAnalyticsData) {
     return (<Container>
 
         <Header>
@@ -80,8 +106,8 @@ export default class SuccessVotingScreen extends Component {
     }
 
     console.log(this.props, "From SuccessVotingScreen");
-    const npos = this._getAllNPOsStatsForStore();
-    console.log("All npos", npos);
+    // const npos = this._getAllNPOsStatsForStore();
+    // console.log("All npos", npos);
     let options = {
       margin: {
         top: 10,
@@ -120,7 +146,7 @@ export default class SuccessVotingScreen extends Component {
 
         <Content style={styles.centerContent}>
             <Pie
-            data={npos}
+            data={this.state.storeAnalyticsData}
             options={options}
             accessorKey="percentage"
             pallete={

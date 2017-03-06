@@ -1,7 +1,8 @@
 
 
 //Implements Store NPO service endpoints.
-const STORE_NPO_SERVICE_ENDPOINT = "http://caritas-store-configuration-svc.devenv.jmagan1.dev.cloud.wal-mart.com:8080/";
+const STORE_NPO_SERVICE_ENDPOINT = "http://172.16.143.116:8080/";
+// "http://caritas-store-configuration-svc.devenv.jmagan1.dev.cloud.wal-mart.com:8080/";
 
 var storeNPOService = {
   getAllNPOsForStore: function(storeId){
@@ -36,6 +37,13 @@ var storeNPOService = {
 
 module.exports = storeNPOService;
 
+/*TODO add this later to .babelrc
+"env": {
+    "production": {
+        "plugins": ["transform-remove-console"]
+    }
+}
+*/
 
 
 /*

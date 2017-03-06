@@ -29,13 +29,15 @@ export default class StoreConfigurationsScreen extends Component {
     this.state = {selected:null, voteButtonDisabled:true, search:'', renderPlaceholderOnly: true, storeId:null, storeConfigurationData:null};
   }
 
-  //TODO {@Jeff's service} time to call => Get all NPOs for a store endpoint
-  _getAllNPOsForStore = () => {
-    console.log("Mehotd: AllNPOsForStore", this.state.storeId);
+  //Get's all NPOs using storeNPOService
+  _getAllNPOsForStore = (storeId) => {
+    console.log("Mehotd: AllNPOsForStore", storeId);
 
-    storeNPOService.getAllNPOsForStore(this.state.storeId).then((response) => {
+    storeNPOService.getAllNPOsForStore(storeId).then((response) => {
       console.log("response in StoreConfigurationsScreen", response);
       this.setState({storeConfigurationData:response});//set the state
+    }).catch((err) => {
+      console.log("error while requesting all NPOs", err);
     })
     // return [{
     //   "name":"Habitat For Humanity"
@@ -116,12 +118,12 @@ export default class StoreConfigurationsScreen extends Component {
 
   _handleSearch = () => {
     console.log("Handle search input", this.state, this.refs);
-    let inputText = this.state.searchable;
-    console.log("Retrieved Search Text", inputText);
+    let inputText = parseInt(this.state.searchable);
+    console.log("Retrieved Search Text", inputText, Number.isInteger(inputText));
     if(Number.isInteger(inputText)){
       this.setState({storeId:inputText});
       // let data =
-      this._getAllNPOsForStore();
+      this._getAllNPOsForStore(inputText);
       // this.setState({storeConfigurationData:data});
     }
 

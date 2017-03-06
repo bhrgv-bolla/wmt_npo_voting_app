@@ -16,33 +16,32 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
+import storeNPOService from './rest-clients/store-npo-service.js';
+
+import voteNPOService from './rest-clients/vote-service.js';
+
 //Voting screen needs to have Atleast 3 top NPO's. And a way to get more NPO.
 export default class VotingScreen extends Component {
 
 
   _getTop3NPOsForStore = () => {
       console.log("Mehotd: Top3Npos", this.props.storeId);
-      return [{
-        "name":"Habitat For Humanity"
-      },{
-        "name":"Feeding America"
-      },{
-        "name":"UNICEF"
-      }];
-  }
+
+      storeNPOService.getTop3NPOsForStore(this.props.storeId).then((response) => {
+        console.log("response in VotingScreen", response);
+        this.setState({storeVoteableTop3NPOs:response});
+      }).catch((err) => {
+        console.log("error while requesting top 3 NPOs", err);
+      });
 
 
-  _getAllNPOsForStore = () => {
-    console.log("Mehotd: AllNPOsForStore", this.props.storeId);
-    return [{
-      "name":"Habitat For Humanity"
-    },{
-      "name":"Feeding America"
-    },{
-      "name":"UNICEF"
-    },{
-      "name":"Amnesty International"
-    }];
+      // return [{
+      //   "name":"Habitat For Humanity"
+      // },{
+      //   "name":"Feeding America"
+      // },{
+      //   "name":"UNICEF"
+      // }];
   }
 
 
@@ -58,15 +57,14 @@ export default class VotingScreen extends Component {
 
   _renderTop3NPOs = () => {
       console.log("Method: Render Top 3 NPOs");
-      let x = this._getTop3NPOsForStore();
+      let x = this.state.storeVoteableTop3NPOs;
       const npos = x.map((npo) => <Button block primary key={npo.name.toString()} style={styles.customButton} onPress={() => this._sendVote(npo)}><Text>{npo.name}</Text></Button>);
       return npos;
   }
 
   _sendVote = (npo) => {
     console.log("In send vote", npo);
-    //TODO (@Javier's voting Service) send the vote to Also get from the previous screen the transactionId( Random UUID ) along with store
-
+    voteNPOService.voteForNPO(this.props.storeId, 22, "walpay", npo.id);//TODO check if this stuff needs to remain same.
     this._handleTransitionToSuccessVotePage();
   }
 
@@ -84,18 +82,19 @@ export default class VotingScreen extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({renderPlaceholderOnly: false});
     });
+    this._getTop3NPOsForStore();
   }
 
   constructor(props) {
       super(props);
-      this.state = {renderPlaceholderOnly: true};
+      this.state = {renderPlaceholderOnly: true, storeVoteableTop3NPOs:null};
   }
 
 
 
 
   render(){
-    if (this.state.renderPlaceholderOnly) {
+    if (this.state.renderPlaceholderOnly || !this.state.storeVoteableTop3NPOs) {
     return (<Container>
       <Header>
         <Body>

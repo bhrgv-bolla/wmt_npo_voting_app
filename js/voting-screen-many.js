@@ -17,6 +17,10 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
 
+import storeNPOService from './rest-clients/store-npo-service.js';
+import voteNPOService from './rest-clients/vote-service.js';
+
+
 //Voting screen needs to have Atleast 3 top NPO's. And a way to get more NPO.
 //Works on this.state.selected..
 export default class VotingScreenMany extends Component {
@@ -24,66 +28,75 @@ export default class VotingScreenMany extends Component {
   //Slect nothing initially
   constructor(props){
     super(props);
-    this.state = {selected:null, voteButtonDisabled:true, search:'', renderPlaceholderOnly: true};
+    this.state = {selected:null, voteButtonDisabled:true, search:'', renderPlaceholderOnly: true, storeVoteableNPOs:null};
   }
 
   //Right swipe more information.
   _getAllNPOsForStore = () => {
     console.log("Mehotd: AllNPOsForStore", this.props.storeId);
-    return [{
-      "name":"Habitat For Humanity"
-    },{
-      "name":"Feeding America"
-    },{
-      "name":"UNICEF"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    },{
-      "name":"Amnesty International"
-    }];
+
+
+    storeNPOService.getVoteableNPOsForStore(this.props.storeId).then((response) => {
+      console.log("response in VotingScreenMany", response);
+      this.setState({storeVoteableNPOs:response});
+    }).catch((err) => {
+      console.log("error while requesting all NPOs", err);
+    })
+
+
+    // return [{
+    //   "name":"Habitat For Humanity"
+    // },{
+    //   "name":"Feeding America"
+    // },{
+    //   "name":"UNICEF"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // },{
+    //   "name":"Amnesty International"
+    // }];
   }
 
 
 
 //select something and send vote
   _sendVote = () => {
-    console.log("In send vote", this.state.selected);
-    //TODO @Javier's voting Service send the vote to => Send transactionId
-
+    console.log("In send vote", this.state.selected);//Selected ID
+    voteNPOService.voteForNPO(this.props.storeId, 22, "walpay", this.state.selected);//TODO check if this stuff needs to remain same.
     this._handleTransitionToSuccessVotePage();
   }
 
@@ -102,7 +115,7 @@ export default class VotingScreenMany extends Component {
   _handleListSelect = (npo) => {
     console.log("Handling a select gesture", npo, this.refs);
     this.setState({
-      selected: npo.name,
+      selected: npo.id,
       voteButtonDisabled: false,
     });
     console.log(this.state);
@@ -130,16 +143,17 @@ export default class VotingScreenMany extends Component {
         InteractionManager.runAfterInteractions(() => {
           this.setState({renderPlaceholderOnly: false});
         });
+
+        this._getAllNPOsForStore();//Willl make a rest call and set the state data.
       }
 
 
 
   render(){
     console.log(this.props, this.state, "From Voting Screen");
-    const npos = this._getAllNPOsForStore();
-    console.log("All npos", npos);
+    // console.log("All npos", npos);
 
-    if (this.state.renderPlaceholderOnly) {
+    if (this.state.renderPlaceholderOnly || !this.state.storeVoteableNPOs) {
     return (<Container>
 
         <Header searchBar rounded>
@@ -173,13 +187,13 @@ export default class VotingScreenMany extends Component {
         </Header>
 
         <Content style={styles.centerContent}>
-          <List dataArray={npos} renderRow={(npo) =>{
+          <List dataArray={this.state.storeVoteableNPOs} renderRow={(npo) =>{
 
                         if(!this.aContainsB(npo.name,this.state.search) && this.state.search) return null;
-                        return (<ListItem selected={npo.name == this.state.selected?true:false} onPress={() => this._handleListSelect(npo)}>
+                        return (<ListItem selected={npo.id == this.state.selected?true:false} onPress={() => this._handleListSelect(npo)}>
                             <Text>{npo.name}</Text>
                             <Right>
-                              <Radio selected={npo.name == this.state.selected?true:false}/>
+                              <Radio selected={npo.id == this.state.selected?true:false}/>
                             </Right>
                         </ListItem>)
                         }

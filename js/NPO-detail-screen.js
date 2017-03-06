@@ -35,6 +35,9 @@ import {
 
 import {Col, Row, Grid} from 'react-native-easy-grid';
 
+
+import storeNPOService from './rest-clients/store-npo-service.js';
+
 var t = require('tcomb-form-native'); //trying out tcomb form native
 
 var _ = require('lodash');
@@ -87,17 +90,16 @@ export default class NPODetailScreen extends Component {
     constructor(props) {
         super(props);
         console.log("Constructor-NPODetailScreen--", this.props);
-        //TODO (@Jeffs service) remove this => This will be given from the previous screen!!!!!!!! as npo in the props!! Confirm
-        let npoDetailData = {
-            "nonProfitID": "0c0b0772-6b80-4355-82c6-3a64278b8733",
-            "name": "UNICEF",
-            "nonProfitType": "Sustainability",
-            "storeNbr": 100,
-            "voteable": true,
-            "top3": false
-        };
+        // let npoDetailData = {
+        //     "nonProfitID": "0c0b0772-6b80-4355-82c6-3a64278b8733",
+        //     "name": "UNICEF",
+        //     "nonProfitType": "Sustainability",
+        //     "storeNbr": 100,
+        //     "voteable": true,
+        //     "top3": false
+        // };
         this.state = {
-            npoData: npoDetailData,
+            npoData: this.props.npo,
             renderPlaceholderOnly: true
         };
 
@@ -113,12 +115,13 @@ export default class NPODetailScreen extends Component {
         this.props.navigator.pop();
     }
 
-    //TODO To {@Jeffs Service} here need to make a rest call about the update on an NPO. (  )
     _saveForm = () => {
       console.log(value,"saveForm");
         var value = this.refs.form.getValue();
         if (value) {
             console.log(value);
+            storeNPOService.setVotableStatusForNPO(this.state.npoData.nonProfitID, this.state.npoData.storeNbr, value.voteable);
+            storeNPOService.setVisibleStatusForNPO(this.state.npoData.nonProfitID, this.state.npoData.storeNbr, value.isInTop3);
         }
     }
 

@@ -55,7 +55,7 @@ export default class Main extends Component {
       onSuccess(e) {
         console.log("Main QRScanner Data is:"+e.data);
         //COnvert to some fake store later.
-        this.handleTransitionToVotingScreen("Store100");
+        this.handleTransitionToVotingScreen(e.data);//TODO Zsecondary: keep a check whether the QR data is read and treated as 100.
         // Linking.openURL(e.data).catch(err => console.error('An error occured', err))
       }
 
@@ -69,14 +69,14 @@ export default class Main extends Component {
 //Change this to have QR before going to voting.
     gotoVoting= () => {
       console.log("Routed to Voting app", this.props);
-      this.props.navigator.push({
-        name: 'QRCodeScanner',
-        passProps: {
-          onRead: this.onSuccess.bind(this)
-        },
-      });
+      // this.props.navigator.push({
+      //   name: 'QRCodeScanner',
+      //   passProps: {
+      //     onRead: this.onSuccess.bind(this)
+      //   },
+      // });
 
-      // this.handleTransitionToVotingScreen("Store100");
+      this.handleTransitionToVotingScreen("100");//TODO Zsecondary:  change later to use QR screen
 
     }
 
