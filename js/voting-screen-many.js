@@ -96,7 +96,7 @@ export default class VotingScreenMany extends Component {
 //select something and send vote
   _sendVote = () => {
     console.log("In send vote", this.state.selected);//Selected ID
-    voteNPOService.voteForNPO(this.props.storeId, 22, "walpay", this.state.selected);//TODO check if this stuff needs to remain same.
+    voteNPOService.voteForNPO(this.props.storeId, 22, "WalmartPay", this.state.selected);//TODO check if this stuff needs to remain same.
     this._handleTransitionToSuccessVotePage();
   }
 

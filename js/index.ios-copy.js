@@ -12,6 +12,7 @@ import {
   Linking,
 } from 'react-native';
 
+TODO remove later
 // import cameraApp from './js/CameraApp.js';
 
 // This would be the root class for the app.

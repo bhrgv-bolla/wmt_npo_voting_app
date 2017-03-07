@@ -64,7 +64,7 @@ export default class VotingScreen extends Component {
 
   _sendVote = (npo) => {
     console.log("In send vote", npo);
-    voteNPOService.voteForNPO(this.props.storeId, 22, "walpay", npo.id);//TODO check if this stuff needs to remain same.
+    voteNPOService.voteForNPO(this.props.storeId, 22, "WalmartPay", npo.id);//TODO check if this stuff needs to remain same.
     this._handleTransitionToSuccessVotePage();
   }
 

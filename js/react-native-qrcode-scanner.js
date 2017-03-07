@@ -140,10 +140,28 @@ export default class QRCodeScanner extends Component {
     )
   }
 
+  _handleNavigationBack = () => {
+      this.props.navigator.pop();
+  }
+
 
   render() {
     if (this.state.renderPlaceholderOnly) {
     return (<Container>
+              <Header>
+                <Left>
+                    <Button transparent onPress={this._handleNavigationBack}>
+                        <Icon name='ios-arrow-back-outline'/>
+                    </Button>
+                </Left>
+                <Body>
+                  <Title>
+                    Scan QR Code
+                  </Title>
+                </Body>
+                <Right>
+                </Right>
+              </Header>
               <Content>
                   <Spinner color='green' />
               </Content>
@@ -152,11 +170,18 @@ export default class QRCodeScanner extends Component {
     return (
       <Container>
         <Header>
+          <Left>
+              <Button transparent onPress={this._handleNavigationBack}>
+                  <Icon name='ios-arrow-back-outline'/>
+              </Button>
+          </Left>
           <Body>
             <Title>
               Scan QR Code
             </Title>
           </Body>
+          <Right>
+          </Right>
         </Header>
 
         <Content>
